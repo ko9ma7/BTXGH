@@ -44,7 +44,7 @@ posts = {'post_id' : [],
 
 #### Crawl over posts pages
 
-epoch = 90
+epoch = 100
 
 url = "https://gall.dcinside.com/board/lists/?id=cosmetic&page="
 
@@ -66,18 +66,18 @@ for i in range(1, epoch+1):
 
     lists = table.find_all("tr")
 
-    #### TO Pandas Dataframe
 
-
+    #### Add to Dict
 
     for post in lists:
         title_id = post.find("td").text
         posts['post_id'].append(title_id.strip())
-        posts['제목'].append(post.find("td").find_next_sibling("td").text.strip())
-        posts['글쓴이'].append(post.find("td").find_next_sibling("td").find_next_sibling("td").text.strip())
+        posts['제목'].append(post.find("td").find_next_sibling("td").text.strip().replace(',', '').replace('\n', '')).replace('.', '')
+        posts['글쓴이'].append(post.find("td").find_next_sibling("td").find_next_sibling("td").text.strip().replace(',', '').replace('\n', '')).replace('.', '')
         posts['작성일'].append(post.find("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").text.strip())
         posts['조회수'].append(post.find("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").text.strip())
         posts['추천수'].append(post.find("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").find_next_sibling("td").text.strip())
+
 
 postings = pd.DataFrame(posts)
 postings.to_csv("DCinside_cosmetics.csv", index=False, encoding='utf-8')

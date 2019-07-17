@@ -1,0 +1,7 @@
+crawler reads youtuber.csv file, and saves json file named after youtuber's name (these are saved both locally and on S3)
+  note: youtuber.csv follows one saved locally
+  note: space is converted to _, and [ (, >, ', ", /, &, - ] are removed
+  
+convert2csv converts all json files in S3 to .csv files
+
+merger combines all the csv files with comments to one csv file

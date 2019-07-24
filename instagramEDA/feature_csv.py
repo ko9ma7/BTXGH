@@ -28,8 +28,10 @@ for json_file in my_bucket.objects.all():
             'avg_self_comment': avg_self_comments(data, username),
             'post_interval': post_interval(data),
             'ppl_img_ratio': ppl_img_ratio(data) # 이미지 당 인물 등장 비율
-            }   
+            'lang_ratio': lang_detection(data)}  # 몇 개만 잘라서 그냥 딕셔너리 형태로 넣을지?  
         # 프로필 크롤링 결과에서 칼럼 추가...
+    influencer = dict(influencer, **user_comment(data))
+    #influencer = dict(influencer, **lang_detection(data))
 
     result = pd.concat([result, pd.DataFrame(influencer)])
 

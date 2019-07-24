@@ -1,4 +1,6 @@
 import datetime
+from collections import Counter, OrderedDict
+import re
 
 # avg hashtag
 def avg_hashtags(json_file):
@@ -47,6 +49,58 @@ def ppl_img_ratio(json_file):
                 img_num+=1
     return [round(people/img_num,2)]
 
+# loyal user
+def user_comment(json_file):
+    total_comment = []
+    for post in json_file:
+        if post.get('comments'):
+            for comment in post.get('comments'):
+                total_comment.append(comment.get('author'))
+    value = Counter(total_comment)
+    comm1 = len({k : v for k,v in value.items() if v==1}) # 총 댓글 5개 이상인 유저
+    comm2 = len({k : v for k,v in value.items() if v==2})
+    comm3 = len({k : v for k,v in value.items() if v==3})
+    comm4 = len({k : v for k,v in value.items() if v==4})
+    comm5 = len({k : v for k,v in value.items() if v==5})
+    comm6 = len({k : v for k,v in value.items() if v==6})
+    comm7 = len({k : v for k,v in value.items() if v==7})
+    comm8 = len({k : v for k,v in value.items() if v==8})
+    comm9 = len({k : v for k,v in value.items() if v==9})
+    comm10 = len({k : v for k,v in value.items() if v==10})
+    comm_over_10 = len({k : v for k,v in value.items() if v>10})
+
+    user_by_comment = {'comment1': comm1, 'comment2': comm2, 'comment3': comm3,
+                    'comment4': comm4, 'comment5': comm5,
+                    'comment6': comm6, 'comment7': comm7,
+                    'comment8': comm8, 'comment9': comm9,
+                    'comment10': comm10, 'comment_over_10': comm_over_10
+                    }
+    
+    return user_by_comment
+
+# language ratio
+def lang_detection(json_file):
+    lang = []
+    emoji = []
+    comments_num = 0
+    for post in json_file:
+        if post.get('comments'):
+            for comment in post.get('comments'):
+                text = comment.get('comment')
+                comments_num += 1
+                try:
+                    if detect(text):
+                        lang.append(detect(text))
+                except:
+                    p = re.compile(r'[ㄱ-ㅎㅏ-ㅣ가-힣A-Z\d]', re.I)
+                    if p.search(text):
+                        lang.append('ko')
+                    else:
+                        lang.append('emoji')
+                        emoji.append(text) # 문장부호/특수기호만 있는 경우에도 이 리스트에 포함
+    lang_dist = {k : '{0:.2f}'.format(v/comments_num*100) for k,v in OrderedDict(Counter(lang).most_common(3)).items()}
+    return lang_dist
+
 # E(like/follower)
 
 # profile pic
@@ -56,3 +110,4 @@ def ppl_img_ratio(json_file):
 # follower's post num
 
 # 팔로워 유형
+

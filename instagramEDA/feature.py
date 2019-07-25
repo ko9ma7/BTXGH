@@ -50,6 +50,7 @@ def ppl_img_ratio(json_file):
     return [round(people/img_num,2)]
 
 # loyal user
+# 총 댓글이 n개인 유저 수
 def user_comment(json_file):
     total_comment = []
     for post in json_file:
@@ -57,24 +58,13 @@ def user_comment(json_file):
             for comment in post.get('comments'):
                 total_comment.append(comment.get('author'))
     value = Counter(total_comment)
-    comm1 = len({k : v for k,v in value.items() if v==1}) # 총 댓글 5개 이상인 유저
-    comm2 = len({k : v for k,v in value.items() if v==2})
-    comm3 = len({k : v for k,v in value.items() if v==3})
-    comm4 = len({k : v for k,v in value.items() if v==4})
-    comm5 = len({k : v for k,v in value.items() if v==5})
-    comm6 = len({k : v for k,v in value.items() if v==6})
-    comm7 = len({k : v for k,v in value.items() if v==7})
-    comm8 = len({k : v for k,v in value.items() if v==8})
-    comm9 = len({k : v for k,v in value.items() if v==9})
-    comm10 = len({k : v for k,v in value.items() if v==10})
-    comm_over_10 = len({k : v for k,v in value.items() if v>10})
+    
+    user_by_comment={}
+    for i in range(1,11):
+        user_by_comment['comment{0}'.format(i)] = len({k : v for k,v in value.items() if v==i})
+    over_10 = len({k : v for k,v in value.items() if v>10})
 
-    user_by_comment = {'comment1': comm1, 'comment2': comm2, 'comment3': comm3,
-                    'comment4': comm4, 'comment5': comm5,
-                    'comment6': comm6, 'comment7': comm7,
-                    'comment8': comm8, 'comment9': comm9,
-                    'comment10': comm10, 'comment_over_10': comm_over_10
-                    }
+    user_by_comment = dict(user_by_comment, **{'over_10': over_10})
     
     return user_by_comment
 
@@ -102,6 +92,12 @@ def lang_detection(json_file):
     return lang_dist
 
 # E(like/follower)
+def avg_like_follower_ratio(json_file, follower):
+    total_likes = 0
+    for post in json_file:
+        if post.get('likes'):
+            total_likes += post.get('likes')
+    return round((total_likes/follower)/10, 2)
 
 # profile pic
 
@@ -110,4 +106,5 @@ def lang_detection(json_file):
 # follower's post num
 
 # 팔로워 유형
+
 

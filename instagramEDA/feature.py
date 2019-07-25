@@ -13,9 +13,13 @@ def avg_hashtags(json_file):
 # post interval
 def post_interval(json_file):
     date1 = datetime.datetime.strptime(json_file[0].get('datetime')[:-5].replace('T',' '),"%Y-%m-%d %H:%M:%S")
-    date2 = datetime.datetime.strptime(json_file[9].get('datetime')[:-5].replace('T',' '),"%Y-%m-%d %H:%M:%S")
-    post_per_day = 10/(date1-date2).days
+    date2 = datetime.datetime.strptime(json_file[len(json_file)-1].get('datetime')[:-5].replace('T',' '),"%Y-%m-%d %H:%M:%S")
+    date_term = (date1-date2).days
+    if date_term !=0:
+        post_per_day = 10/(date1-date2).days
     #post_per_week = post_per_day*7
+    else:
+        post_per_day = 10 #10개 이상
     return [post_per_day]
 
 # self comment
@@ -42,12 +46,16 @@ def ppl_img_ratio(json_file):
     people = 0
     img_num = 0
     for post in json_file:
-        for img in post.get('img_desc'):
-            if 'people' in img:
-                people+=1
-            if img: # 비디오 제외
-                img_num+=1
-    return [round(people/img_num,2)]
+        if post.get('img_desc'):
+            for img in post.get('img_desc'):
+                if 'people' in img:
+                    people+=1
+                if img: # 비디오 제외
+                    img_num+=1
+    if img_num !=0:
+        return [round(people/img_num,2)]
+    else:
+        return None
 
 # loyal user
 # 총 댓글이 n개인 유저 수

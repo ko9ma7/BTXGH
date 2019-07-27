@@ -23,7 +23,7 @@ result = pd.DataFrame()
 
 
 ###################
-i = 0 
+i = 0
 for json_file in my_bucket.objects.all():
     if json_file.key[:-5] in instaList:
         i+=1
@@ -35,13 +35,13 @@ for json_file in my_bucket.objects.all():
 
         influencer = {'name': username,
                 'youtube': json_file.key[:-5],
-                'avg_hashtag': avg_hashtags(data),   
+                'avg_hashtag': avg_hashtags(data),
                 'avg_comment': avg_comments(data),
                 'avg_self_comment': avg_self_comments(data, username),
                 'post_interval': post_interval(data),
                 'ppl_img_ratio': ppl_img_ratio(data), # 이미지 당 인물 등장 비율
                 'comment_user_num': str(user_comment(data)), # 몇 개만 잘라서 넣을지?
-                'lang_ratio': str(lang_detection(data))}   
+                'lang_ratio': str(lang_detection(data))}
                 # 프로필 크롤링 결과에서 칼럼 추가...
         ###################################################
         ## 프로필 추가 부분
@@ -68,7 +68,7 @@ for json_file in my_bucket.objects.all():
         #bio_url_ratio = info['bio_url'].dropna().shape[0]/info.shape[0]
 
         #follower_info = {'avg_like_follower_ratio': avg_like_follower_ratio(data, profile_info.get('followers'))}
-        
+
         ###################################################
        # influencer = dict(influencer, profile_info)
         #influencer = dict(influencer, follower_info)

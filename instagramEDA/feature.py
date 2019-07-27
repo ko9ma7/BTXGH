@@ -65,16 +65,7 @@ def user_comment(json_file):
         if post.get('comments'):
             for comment in post.get('comments'):
                 total_comment.append(comment.get('author'))
-    value = Counter(total_comment)
-    
-    user_by_comment={}
-    for i in range(1,11):
-        user_by_comment['comment{0}'.format(i)] = len({k : v for k,v in value.items() if v==i})
-    over_10 = len({k : v for k,v in value.items() if v>10})
-
-    user_by_comment = dict(user_by_comment, **{'over_10': over_10})
-    
-    return user_by_comment
+    return total_comment
 
 # language ratio
 def lang_detection(json_file):
@@ -114,5 +105,3 @@ def avg_like_follower_ratio(json_file, follower):
 # follower's post num
 
 # 팔로워 유형
-
-

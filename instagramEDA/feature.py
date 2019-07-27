@@ -36,9 +36,10 @@ def avg_self_comments(json_file, username):
 def avg_comments(json_file):
     comments = []
     for post in json_file:
+        if post.get('comments'):
         #if post.get('comments') and not post.get('mentions'): # 답글 제외
         #    comments.extend(post.get('comments'))
-        comments.extend(post.get('comments')) # 답글 포함
+            comments.extend(post.get('comments')) # 답글 포함
     return [len(comments)/10]
 
 # post x, image당 people image ratio

@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 import sys
 import os
 import io
-
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
-
-sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')  #Unicode Encoding
+#
+# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+#
+# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')  #Unicode Encoding
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup as bs
@@ -111,8 +110,7 @@ for index, row in df.iterrows():
 output_df = pd.DataFrame(urls)
 with_src = pd.merge(df, urls, how='left', left_on='name', right_on='name')
 with_src.to_csv("commenters_src.csv", encoding='utf-8', index=False)
-||||||| merged common ancestors
-=======
+
 import sys
 import os
 import io
@@ -196,4 +194,3 @@ for index, row in df.iterrows():
 output_df = pd.DataFrame(urls)
 with_src = pd.merge(df, urls, how='left', left_on='name', right_on='name')
 with_src.to_csv("commenters_src.csv", encoding='utf-8', index=False)
->>>>>>> b0f2eb5791e99f6b3ca67dd4c27ef81c66ddc875
